@@ -98,21 +98,8 @@ a{color:inherit;text-decoration:none;}
   line-height:1.14;
   letter-spacing:-0.01em;
   margin:0 0 26px;
-  max-width:14ch;
+  max-width:18ch;
 }
-.type-target{
-  display:inline;
-  color:var(--accent);
-}
-.cursor{
-  display:inline-block;
-  width:2px;
-  background:var(--accent);
-  animation:blink 1s steps(1) infinite;
-  transform:translateY(2px);
-  height:0.85em;
-}
-@keyframes blink{50%{opacity:0;}}
 
 .hero-sub{
   font-size:1.08rem;
@@ -318,7 +305,6 @@ section{
 /* reduced motion */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
-  .cursor{animation:none;opacity:1;}
   .project{opacity:1;transform:none;transition:none;}
   .btn{transition:none;}
 }
