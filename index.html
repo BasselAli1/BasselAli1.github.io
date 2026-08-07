@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bassel Ali Mahmoud — AI Engineer</title>
+<meta name="description" content="Full-stack AI engineer building deployed, end-to-end AI applications integrated with business systems. Based in Alexandria, Egypt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="#work">Work</a>
+      <a href="#pipeline">Stack</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap">
+    <p class="eyebrow">Full-Stack AI Engineer &mdash; Alexandria, Egypt</p>
+    <h1 class="hero-title">
+      I ship apps that
+      <span class="type-target"><span class="type-text" id="typeText"></span><span class="cursor" aria-hidden="true">&nbsp;</span></span>
+    </h1>
+    <p class="hero-sub">
+      From idea to deployed app &mdash; AI agents with real UIs, connected to the databases and tools businesses already run on.
+    </p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">See the work</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </section>
+
+  <section id="work" class="work wrap">
+    <div class="section-head">
+      <p class="eyebrow">Selected work</p>
+      <h2>Deployed, not just demoed</h2>
+    </div>
+
+    <div class="project-list">
+
+      <article class="project" data-flow="Question → text-to-SQL + RAG → Postgres → Answer">
+        <div class="project-flow" aria-hidden="true">
+          <span>Question</span><span class="arrow">→</span><span>SQL Gen</span><span class="arrow">→</span><span>Postgres</span><span class="arrow">→</span><span>Answer</span>
+        </div>
+        <h3>Chat With Your Database</h3>
+        <p class="project-desc">
+          Ask a database questions in plain language. Schema retrieval runs on
+          PGVector so the model only ever sees the tables relevant to the
+          question, generates SQL through an LLM with structured output, executes
+          it safely, then summarizes the real results back in plain language.
+        </p>
+        <ul class="tags">
+          <li>React</li><li>FastAPI</li><li>LangChain</li><li>PGVector</li><li>Postgres</li>
+        </ul>
+        <a href="https://chatting-with-db.vercel.app/" class="project-link" target="_blank" rel="noopener">Try it live &rarr;</a>
+      </article>
+
+      <article class="project" data-flow="Document → Chunk + Embed → Retrieve → Streamed Answer">
+        <div class="project-flow" aria-hidden="true">
+          <span>Upload</span><span class="arrow">→</span><span>Embed</span><span class="arrow">→</span><span>Retrieve</span><span class="arrow">→</span><span>Stream</span>
+        </div>
+        <h3>Document Q&amp;A</h3>
+        <p class="project-desc">
+          Upload any document and ask questions about it directly, no fixed
+          source, no fixed corpus. Answers stream back token by token. Packaged
+          with Docker Compose so it runs the same way anywhere.
+        </p>
+        <ul class="tags">
+          <li>HTML/JS</li><li>RAG</li><li>Docker Compose</li><li>Streaming</li><li>Python</li>
+        </ul>
+        <a href="https://documentqa-5c1be7ab.fastapicloud.dev/" class="project-link" target="_blank" rel="noopener">Try it live &rarr;</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="pipeline" class="stack wrap">
+    <div class="section-head">
+      <p class="eyebrow">Toolbox</p>
+      <h2>What it's built with</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-group">
+        <h4>Frontend</h4>
+        <ul class="tags mono">
+          <li>React</li><li>HTML/CSS</li><li>JavaScript</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h4>Backend</h4>
+        <ul class="tags mono">
+          <li>FastAPI</li><li>Python</li><li>Docker</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h4>AI / LLM</h4>
+        <ul class="tags mono">
+          <li>LangChain</li><li>RAG</li><li>LLM APIs</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h4>Data</h4>
+        <ul class="tags mono">
+          <li>PostgreSQL</li><li>PGVector</li><li>SQL</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about wrap">
+    <div class="section-head">
+      <p class="eyebrow">About</p>
+      <h2>Background</h2>
+    </div>
+    <div class="about-grid">
+      <p class="about-text">
+        B.Sc. in Computer Science from the Faculty of Science, University of
+        Alexandria (2021). Since then, building AI applications end to end
+        &mdash; backend, database, API, and the interface a user actually
+        clicks on. Every project ships with a UI and a live link, not just a
+        notebook. Currently taking on freelance AI development work.
+      </p>
+      <ul class="cert-list">
+        <li>Machine Learning Specialization</li>
+        <li>Machine Learning in Production</li>
+        <li>Exploratory Data Analysis</li>
+        <li>SQL for Data Science</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="contact wrap">
+    <div class="section-head">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's build something</h2>
+    </div>
+    <p class="contact-text">
+      Open to freelance AI development work &mdash; RAG pipelines, AI agents,
+      or full applications end to end.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:basel_ebeed1@yahoo.com" class="btn btn-primary">basel_ebeed1@yahoo.com</a>
+      <a href="https://github.com/BasselAli1" class="btn btn-ghost">GitHub</a>
+      <a href="https://linkedin.com/in/bassel-ali1" class="btn btn-ghost">LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
