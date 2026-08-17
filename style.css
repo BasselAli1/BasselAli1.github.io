@@ -30,7 +30,11 @@ body{
 .wrap{
   max-width:var(--max);
   margin:0 auto;
-  padding:0 var(--pad);
+  /* horizontal-only on purpose: a shorthand `padding:0 var(--pad)` here
+     would zero out any vertical padding set by a lower-specificity type
+     selector (like the bare `section` rule below) on the same element. */
+  padding-left:var(--pad);
+  padding-right:var(--pad);
 }
 
 /* subtle paper grain, purely decorative */
@@ -288,15 +292,6 @@ section{
 }
 
 /* case study page */
-/* .wrap's shorthand padding (0 var(--pad)) has higher specificity than
-   the bare `section` type selector's padding-top/bottom, so it silently
-   zeroes them out on any <section class="wrap">. ID selectors here
-   restore the intended vertical rhythm without touching the shared
-   .wrap/section rules the homepage depends on. */
-#problem, #build, #role, #highlights, #numbers, #stack{
-  padding-top:72px;
-  padding-bottom:72px;
-}
 .hero.compact{padding-top:56px;padding-bottom:48px;}
 .back-link{margin-top:0;margin-bottom:28px;}
 
