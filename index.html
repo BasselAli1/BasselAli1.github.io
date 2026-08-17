@@ -48,6 +48,25 @@
 
     <div class="project-list">
 
+      <article class="project" data-flow="HubSpot webhook → Rules + RAG/LLM → HubSpot + Slack">
+        <div class="project-flow" aria-hidden="true">
+          <span>Webhook</span><span class="arrow">→</span><span>Rules Engine</span><span class="arrow">→</span><span>RAG + LLM</span><span class="arrow">→</span><span>HubSpot / Slack</span>
+        </div>
+        <h3>Lead Qualifier</h3>
+        <p class="project-desc">
+          Qualifies inbound HubSpot leads in real time. A webhook triggers a
+          deterministic rules engine and an LLM call grounded via pgvector
+          retrieval in the company's own ICP and sales playbook, then writes
+          the score back to HubSpot and alerts Slack for hot leads. Shipped
+          with a full test suite, an LLM eval harness, and a gated CI/CD
+          pipeline to production.
+        </p>
+        <ul class="tags">
+          <li>FastAPI</li><li>HubSpot API</li><li>RAG</li><li>pgvector</li><li>GitHub Actions</li>
+        </ul>
+        <a href="https://lead-qualifier-39d6b21e.fastapicloud.dev/docs" class="project-link" target="_blank" rel="noopener">Live API docs &rarr;</a>
+      </article>
+
       <article class="project" data-flow="Question → text-to-SQL + RAG → Postgres → Answer">
         <div class="project-flow" aria-hidden="true">
           <span>Question</span><span class="arrow">→</span><span>SQL Gen</span><span class="arrow">→</span><span>Postgres</span><span class="arrow">→</span><span>Answer</span>
@@ -98,7 +117,7 @@
       <div class="stack-group">
         <h4>Backend</h4>
         <ul class="tags mono">
-          <li>FastAPI</li><li>Python</li><li>Docker</li>
+          <li>FastAPI</li><li>Python</li><li>Docker</li><li>CI/CD</li>
         </ul>
       </div>
       <div class="stack-group">
