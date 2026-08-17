@@ -221,6 +221,9 @@ section{
 }
 .project-link:hover, .project-link:focus-visible{border-color:var(--accent);}
 
+.project-links{display:flex;flex-wrap:wrap;gap:24px;}
+.project-links .project-link{margin-top:16px;}
+
 /* stack */
 .stack-grid{
   display:grid;
@@ -284,6 +287,79 @@ section{
   border-radius:50%;
 }
 
+/* case study page */
+/* .wrap's shorthand padding (0 var(--pad)) has higher specificity than
+   the bare `section` type selector's padding-top/bottom, so it silently
+   zeroes them out on any <section class="wrap">. ID selectors here
+   restore the intended vertical rhythm without touching the shared
+   .wrap/section rules the homepage depends on. */
+#problem, #build, #role, #highlights, #numbers, #stack{
+  padding-top:72px;
+  padding-bottom:72px;
+}
+.hero.compact{padding-top:56px;padding-bottom:48px;}
+.back-link{margin-top:0;margin-bottom:28px;}
+
+.case-flow{font-size:0.82rem;margin-bottom:20px;}
+
+.tier-row{display:flex;flex-wrap:wrap;gap:8px;}
+
+.table-wrap{overflow-x:auto;}
+.case-table{width:100%;border-collapse:collapse;margin-top:4px;}
+.case-table th{
+  font-family:var(--font-mono);
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--ink-soft);
+  font-weight:500;
+  text-align:left;
+  padding:0 20px 10px 0;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+.case-table td{
+  padding:14px 20px 14px 0;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+.case-table tr:last-child td{border-bottom:none;}
+.case-table td:first-child{
+  font-family:var(--font-mono);
+  font-size:0.85rem;
+  font-weight:500;
+  white-space:nowrap;
+}
+.case-table td:last-child{color:var(--ink-soft);}
+
+.case-stats{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:32px;
+}
+.case-stat{
+  border-top:1px solid var(--line);
+  padding-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.case-stat .num{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:2rem;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+}
+.case-stat .label{
+  font-family:var(--font-mono);
+  font-size:0.78rem;
+  color:var(--ink-soft);
+}
+
+.case-role-list li{max-width:68ch;}
+
 /* contact */
 .contact-text{
   color:var(--ink-soft);
@@ -309,6 +385,7 @@ section{
   .stack-grid{grid-template-columns:repeat(2, 1fr);}
   .about-grid{grid-template-columns:1fr;}
   .hero{padding-top:64px;padding-bottom:56px;}
+  .case-stats{grid-template-columns:repeat(2, 1fr);}
 }
 
 /* reduced motion */

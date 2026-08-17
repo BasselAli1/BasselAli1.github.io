@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Qualifier &mdash; Case Study &middot; Bassel Ali Mahmoud</title>
+<meta name="description" content="How a hybrid rules + RAG-grounded LLM lead-scoring service for HubSpot was designed, built, tested, and deployed end-to-end.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#pipeline">Stack</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero compact wrap">
+    <a href="index.html#work" class="project-link back-link">&larr; All projects</a>
+    <p class="eyebrow">Case study</p>
+    <h1 class="hero-title">Lead Qualifier</h1>
+    <p class="hero-sub">
+      A hybrid rules + RAG-grounded LLM system that scores inbound HubSpot
+      leads in real time &mdash; architected, built, tested, and deployed
+      end-to-end, solo.
+    </p>
+    <div class="hero-cta">
+      <a href="https://lead-qualifier-39d6b21e.fastapicloud.dev/docs" class="btn btn-primary" target="_blank" rel="noopener">Live API docs</a>
+      <a href="https://github.com/BasselAli1/lead-qualifier" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
+    </div>
+  </section>
+
+  <section id="problem" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The problem</p>
+      <h2>Manual triage doesn&rsquo;t scale</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Inbound leads arrive faster than a sales team can read them. A generic
+      form fill and a VP-level buyer with a funding trigger and a live budget
+      look identical in a CRM list view &mdash; until someone manually opens
+      each record, cross-references it against the company&rsquo;s ICP and
+      playbook, and decides what to do next. That triage is slow,
+      inconsistent between reps, and the leads that need a fast response are
+      the ones most likely to sit in the queue.
+    </p>
+  </section>
+
+  <section id="build" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The build</p>
+      <h2>Rules and retrieval-grounded LLM, in one pipeline</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      A HubSpot webhook fires on every contact update. From there, a
+      deterministic rules engine and an LLM call &mdash; grounded via
+      retrieval-augmented generation in the company&rsquo;s own ICP, sales
+      playbook, and past-deal notes, so the model reasons from real
+      precedent instead of a generic prompt &mdash; combine into one score
+      and tier, written straight back into the CRM.
+    </p>
+    <div class="project-flow case-flow" aria-hidden="true">
+      <span>HubSpot webhook</span><span class="arrow">&rarr;</span>
+      <span>Rules engine</span><span class="arrow">&rarr;</span>
+      <span>RAG + LLM scoring</span><span class="arrow">&rarr;</span>
+      <span>Write-back + alert</span>
+    </div>
+    <div class="tier-row">
+      <ul class="tags mono"><li>Hot &rarr; Slack alert</li></ul>
+      <ul class="tags"><li>Warm &rarr; nurture queue</li><li>Cold &rarr; no action</li></ul>
+    </div>
+  </section>
+
+  <section id="role" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">My role</p>
+      <h2>Designed, built, and shipped solo</h2>
+    </div>
+    <ul class="cert-list case-role-list">
+      <li>Designed the system in hexagonal (ports-and-adapters) architecture, so the scoring logic stays independently testable from HubSpot, OpenAI, Postgres, and Slack.</li>
+      <li>Built the RAG pipeline: knowledge-base ingestion, chunking, embedding, and pgvector similarity search grounding every LLM call in real ICP and deal context.</li>
+      <li>Wrote a full test suite &mdash; unit, adapter, and an LLM eval harness scored against a hand-labeled golden dataset &mdash; plus Alembic migrations and a Dockerized local environment.</li>
+      <li>Stood up a gated CI/CD pipeline: GitHub Actions runs lint, type-check, and tests, and only a green build triggers deployment to FastAPI Cloud.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="wrap">
+    <div class="section-head">
+      <h2>Technical highlights</h2>
+    </div>
+    <div class="table-wrap">
+      <table class="case-table">
+        <thead>
+          <tr><th>Layer</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>API</td><td>FastAPI webhook endpoint, HMAC signature verification, dependency-injected adapters per request</td></tr>
+          <tr><td>Retrieval</td><td>OpenAI embeddings + pgvector cosine similarity over chunked ICP / playbook / deal-history docs</td></tr>
+          <tr><td>Scoring</td><td>Weighted blend of a config-driven rules engine and a grounded LLM call into one tier: Hot / Warm / Cold</td></tr>
+          <tr><td>Persistence</td><td>Postgres (Neon) via SQLAlchemy async + Alembic migrations</td></tr>
+          <tr><td>Integrations</td><td>HubSpot CRM write-back, Slack notifications, MCP server exposing lead data as agent-callable tools</td></tr>
+          <tr><td>Delivery</td><td>Docker, GitHub Actions (lint / type / test), gated auto-deploy to FastAPI Cloud</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="numbers" class="wrap">
+    <div class="section-head">
+      <h2>By the numbers</h2>
+    </div>
+    <div class="case-stats">
+      <div class="case-stat"><span class="num">5</span><span class="label">ports &amp; adapters</span></div>
+      <div class="case-stat"><span class="num">9</span><span class="label">test modules</span></div>
+      <div class="case-stat"><span class="num">5</span><span class="label">golden eval cases</span></div>
+      <div class="case-stat"><span class="num">2</span><span class="label">gated CI/CD stages</span></div>
+    </div>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Stack</h2>
+    </div>
+    <ul class="tags">
+      <li>Python</li><li>FastAPI</li><li>OpenAI API</li><li>pgvector</li>
+      <li>PostgreSQL</li><li>SQLAlchemy</li><li>Alembic</li><li>Docker</li>
+      <li>GitHub Actions</li><li>HubSpot API</li><li>Slack API</li><li>MCP</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt &middot; <a href="index.html" class="project-link" style="margin-top:0;">Back to portfolio &rarr;</a></p>
+</footer>
+
+</body>
+</html>
