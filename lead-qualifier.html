@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lead Qualifier &mdash; Case Study &middot; Bassel Ali Mahmoud</title>
+<title>Lead Qualifier &middot; Case Study &middot; Bassel Ali Mahmoud</title>
 <meta name="description" content="How a hybrid rules + RAG-grounded LLM lead-scoring service for HubSpot was designed, built, tested, and deployed end-to-end.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     <h1 class="hero-title">Lead Qualifier</h1>
     <p class="hero-sub">
       A hybrid rules + RAG-grounded LLM system that scores inbound HubSpot
-      leads in real time &mdash; architected, built, tested, and deployed
+      leads in real time. Architected, built, tested, and deployed
       end-to-end, solo.
     </p>
     <div class="hero-cta">
@@ -51,7 +51,7 @@
     <p class="about-text" style="max-width:68ch;">
       Inbound leads arrive faster than a sales team can read them. A generic
       form fill and a VP-level buyer with a funding trigger and a live budget
-      look identical in a CRM list view &mdash; until someone manually opens
+      look identical in a CRM list view, until someone manually opens
       each record, cross-references it against the company&rsquo;s ICP and
       playbook, and decides what to do next. That triage is slow,
       inconsistent between reps, and the leads that need a fast response are
@@ -66,11 +66,11 @@
     </div>
     <p class="about-text" style="max-width:68ch;">
       A HubSpot webhook fires on every contact update. From there, a
-      deterministic rules engine and an LLM call &mdash; grounded via
+      deterministic rules engine and an LLM call combine into one score and
+      tier, written straight back into the CRM. The LLM call is grounded via
       retrieval-augmented generation in the company&rsquo;s own ICP, sales
-      playbook, and past-deal notes, so the model reasons from real
-      precedent instead of a generic prompt &mdash; combine into one score
-      and tier, written straight back into the CRM.
+      playbook, and past-deal notes, so it reasons from real precedent
+      instead of a generic prompt.
     </p>
     <div class="project-flow case-flow" aria-hidden="true">
       <span>HubSpot webhook</span><span class="arrow">&rarr;</span>
@@ -92,7 +92,7 @@
     <ul class="cert-list case-role-list">
       <li>Designed the system in hexagonal (ports-and-adapters) architecture, so the scoring logic stays independently testable from HubSpot, OpenAI, Postgres, and Slack.</li>
       <li>Built the RAG pipeline: knowledge-base ingestion, chunking, embedding, and pgvector similarity search grounding every LLM call in real ICP and deal context.</li>
-      <li>Wrote a full test suite &mdash; unit, adapter, and an LLM eval harness scored against a hand-labeled golden dataset &mdash; plus Alembic migrations and a Dockerized local environment.</li>
+      <li>Wrote a full test suite (unit, adapter, and an LLM eval harness scored against a hand-labeled golden dataset), plus Alembic migrations and a Dockerized local environment.</li>
       <li>Stood up a gated CI/CD pipeline: GitHub Actions runs lint, type-check, and tests, and only a green build triggers deployment to FastAPI Cloud.</li>
     </ul>
   </section>
