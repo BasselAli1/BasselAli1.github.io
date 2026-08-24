@@ -102,8 +102,9 @@
         <p class="project-desc">
           Ask a database questions in plain language. Schema retrieval runs on
           PGVector so the model only ever sees the tables relevant to the
-          question, generates SQL through an LLM with structured output, executes
-          it safely, then summarizes the real results back in plain language.
+          question, and every generated query runs inside a database-enforced
+          read-only transaction, not just application-level validation, before
+          a second LLM call summarizes the real results back in plain language.
         </p>
         <ul class="tags">
           <li>React</li><li>FastAPI</li><li>LangChain</li><li>PGVector</li><li>Postgres</li>
@@ -118,8 +119,10 @@
         <h3>Document Q&amp;A</h3>
         <p class="project-desc">
           Upload any document and ask questions about it directly, no fixed
-          source, no fixed corpus. Answers stream back token by token. Packaged
-          with Docker Compose so it runs the same way anywhere.
+          source, no fixed corpus. Answers stream back token by token, and
+          retrieved context is explicitly prompt-injection-guarded so the
+          model treats it as data, never instructions. Packaged with Docker
+          Compose so it runs the same way anywhere.
         </p>
         <ul class="tags">
           <li>HTML/JS</li><li>RAG</li><li>Docker Compose</li><li>Streaming</li><li>Python</li>
