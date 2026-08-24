@@ -70,6 +70,30 @@
         </div>
       </article>
 
+      <article class="project" data-flow="Price Drop → pgvector Retrieval → Grounded LLM → Cited Email">
+        <div class="project-flow" aria-hidden="true">
+          <span>Price Drop</span><span class="arrow">→</span><span>pgvector Retrieval</span><span class="arrow">→</span><span>Grounded LLM</span><span class="arrow">→</span><span>Cited Email</span>
+        </div>
+        <h3>Stock Move Explainer</h3>
+        <p class="project-desc">
+          Watches a stock watchlist daily; on a qualifying price drop,
+          retrieves the company's own SEC risk-factor disclosures via
+          pgvector similarity search and asks an LLM to explain the move
+          using only that retrieved text, citing the exact filing passage
+          or honestly saying no connection was found rather than guessing.
+          Built end-to-end in an AI pair-programming session with Claude
+          Code. Ships with 28 unit tests, an LLM grounding eval suite, and
+          gated CI (ruff + pytest).
+        </p>
+        <ul class="tags">
+          <li>Python</li><li>SEC EDGAR API</li><li>RAG</li><li>pgvector</li><li>GitHub Actions</li>
+        </ul>
+        <div class="project-links">
+          <a href="stock-move-explainer.html" class="project-link">Case study &rarr;</a>
+          <a href="https://github.com/BasselAli1/stock-move-explainer" class="project-link" target="_blank" rel="noopener">View source &rarr;</a>
+        </div>
+      </article>
+
       <article class="project" data-flow="Question → text-to-SQL + RAG → Postgres → Answer">
         <div class="project-flow" aria-hidden="true">
           <span>Question</span><span class="arrow">→</span><span>SQL Gen</span><span class="arrow">→</span><span>Postgres</span><span class="arrow">→</span><span>Answer</span>
