@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Move Explainer &middot; Case Study &middot; Bassel Ali Mahmoud</title>
+<meta name="description" content="How a retrieval-grounded LLM system that explains stock price moves using only a company's own SEC filings was designed, built, tested, and shipped.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#pipeline">Stack</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero compact wrap">
+    <a href="index.html#work" class="project-link back-link">&larr; All projects</a>
+    <p class="eyebrow">Case study</p>
+    <h1 class="hero-title">Stock Move Explainer</h1>
+    <p class="hero-sub">
+      Watches a stock watchlist daily, and when a price drops past a
+      threshold, explains why using only the company&rsquo;s own SEC
+      filings &mdash; grounded, cited, and honest when nothing fits.
+      Architected, built, tested, and shipped in an AI pair-programming
+      session with Claude Code.
+    </p>
+    <div class="hero-cta">
+      <a href="https://github.com/BasselAli1/stock-move-explainer" class="btn btn-primary" target="_blank" rel="noopener">View source</a>
+    </div>
+  </section>
+
+  <section id="problem" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The problem</p>
+      <h2>AI stock explainers usually just make it up</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Ask most AI tools why a stock moved and you get a fluent, confident
+      paragraph with no way to check it against anything real. This project
+      takes the opposite approach: it never lets an LLM invent a cause. It
+      retrieves the company&rsquo;s own risk disclosures, hands the model
+      only that retrieved text plus the price move, and requires it to say
+      so honestly when nothing in the filings plausibly explains what
+      happened &mdash; rather than force a connection that isn&rsquo;t
+      really there.
+    </p>
+  </section>
+
+  <section id="build" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The build</p>
+      <h2>Retrieval-grounded explanation, not a guess</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Two daily jobs. Ingestion checks SEC EDGAR for new 10-K/10-Q filings,
+      extracts each one&rsquo;s Risk Factors section, chunks and embeds it,
+      and stores it in pgvector. The trigger job pulls daily closes from
+      Alpha Vantage, and on a qualifying drop, runs a similarity search
+      scoped to that company, sends the top matches plus the price move to
+      an LLM, and emails the result &mdash; including every retrieved
+      source passage, not just what the model chose to cite, so the
+      explanation is checkable by the reader, not just a claim.
+    </p>
+    <div class="project-flow case-flow" aria-hidden="true">
+      <span>Price drop</span><span class="arrow">&rarr;</span>
+      <span>pgvector retrieval</span><span class="arrow">&rarr;</span>
+      <span>Grounded LLM</span><span class="arrow">&rarr;</span>
+      <span>Cited email</span>
+    </div>
+  </section>
+
+  <section id="role" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">My role</p>
+      <h2>Directed end-to-end, built with Claude Code</h2>
+    </div>
+    <ul class="cert-list case-role-list">
+      <li>Directed the full architecture (a layered pipeline: adapters, domain logic, data access, orchestration) and every design decision &mdash; stack choices, restricting the trigger to price drops only since Risk Factors text can&rsquo;t plausibly explain an upward move, and the hard requirement that the LLM say &ldquo;no clear connection found&rdquo; rather than force one.</li>
+      <li>Caught and fixed real bugs surfaced only by testing against live systems, not just reviewing code: a broken package install that silently worked locally but would have failed under cron, two distinct Risk Factors extraction failures found on a real Microsoft 10-K, a pgvector type mismatch blocking retrieval entirely, and a wrong CI action version.</li>
+      <li>Built and reviewed the grounding eval suite against real LLM output, checking not just whether the model reached the right verdict but that every quoted citation was an exact, verbatim match to the source text.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="wrap">
+    <div class="section-head">
+      <h2>Technical highlights</h2>
+    </div>
+    <div class="table-wrap">
+      <table class="case-table">
+        <thead>
+          <tr><th>Layer</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ingestion</td><td>SEC EDGAR CIK resolution (cached), filing listing, HTML&rarr;text extraction, regex-based Risk Factors extraction hardened against real page-break artifacts and repeated running headers</td></tr>
+          <tr><td>Chunking</td><td>Token-aware (tiktoken), paragraph-preferring, overlapping chunk splitter sized for embedding</td></tr>
+          <tr><td>Retrieval</td><td>OpenAI text-embedding-3-small + pgvector HNSW cosine similarity, scoped per company</td></tr>
+          <tr><td>Explanation</td><td>gpt-5.6-luna via OpenAI Structured Outputs (JSON schema), grounded-only prompt, honest "no connection found" fallback</td></tr>
+          <tr><td>Persistence</td><td>Postgres (Neon) via psycopg3, no ORM, 5-table schema with a pgvector column</td></tr>
+          <tr><td>Delivery</td><td>Resend email citing every retrieved source passage, not just what the LLM chose to quote</td></tr>
+          <tr><td>CI/CD</td><td>GitHub Actions: ruff lint + pytest on every push, verified green</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="numbers" class="wrap">
+    <div class="section-head">
+      <h2>By the numbers</h2>
+    </div>
+    <div class="case-stats">
+      <div class="case-stat"><span class="num">5</span><span class="label">external APIs</span></div>
+      <div class="case-stat"><span class="num">28</span><span class="label">unit tests</span></div>
+      <div class="case-stat"><span class="num">8</span><span class="label">grounding eval cases</span></div>
+      <div class="case-stat"><span class="num">5</span><span class="label">real bugs found live</span></div>
+    </div>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Stack</h2>
+    </div>
+    <ul class="tags">
+      <li>Python</li><li>SEC EDGAR API</li><li>Alpha Vantage API</li><li>OpenAI API</li>
+      <li>pgvector</li><li>PostgreSQL (Neon)</li><li>psycopg3</li><li>Resend</li>
+      <li>APScheduler</li><li>GitHub Actions</li><li>ruff</li><li>pytest</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt &middot; <a href="index.html" class="project-link" style="margin-top:0;">Back to portfolio &rarr;</a></p>
+</footer>
+
+</body>
+</html>
