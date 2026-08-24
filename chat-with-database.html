@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat With Your Database: Use Cases &middot; Bassel Ali Mahmoud</title>
+<meta name="description" content="Who Chat With Your Database is for, real example interactions, and the safeguards that keep it safe to point at a real database.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#pipeline">Stack</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero compact wrap">
+    <a href="index.html#work" class="project-link back-link">&larr; All projects</a>
+    <p class="eyebrow">Use cases</p>
+    <h1 class="hero-title">Chat With Your Database</h1>
+    <p class="hero-sub">
+      A retrieval-augmented text-to-SQL app that lets anyone ask a Postgres
+      database questions in plain English and get back both the exact query
+      used and a natural-language answer, grounded in real results, not a
+      guess.
+    </p>
+    <div class="hero-cta">
+      <a href="https://chatting-with-db.vercel.app/" class="btn btn-primary" target="_blank" rel="noopener">Try it live</a>
+      <a href="https://github.com/BasselAli1/chat-with-database" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
+    </div>
+  </section>
+
+  <section id="who" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Who it&rsquo;s for</p>
+      <h2>Answers without waiting on an analyst</h2>
+    </div>
+    <div class="personas">
+      <div class="persona">
+        <span class="role">Business / ops teams</span>
+        <p>Get a quick answer on customers, orders, or revenue without waiting on an analyst or learning SQL.</p>
+      </div>
+      <div class="persona">
+        <span class="role">Support teams</span>
+        <p>Look up an order or account in plain language during a live customer call.</p>
+      </div>
+      <div class="persona">
+        <span class="role">Product managers</span>
+        <p>Explore usage and sales patterns directly, without filing a data request.</p>
+      </div>
+      <div class="persona">
+        <span class="role">New team members</span>
+        <p>Query the database productively before they&rsquo;ve learned its schema.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="use-cases" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Use cases</p>
+      <h2>Four ways it gets used</h2>
+    </div>
+
+    <div class="usecase">
+      <h3>Ad hoc business questions</h3>
+      <p>Answer questions like &ldquo;how many orders came in this week&rdquo; or
+      &ldquo;which customers haven&rsquo;t ordered in 90 days&rdquo; on the spot,
+      in a meeting or a Slack thread, without opening a BI tool or writing a
+      query by hand.</p>
+    </div>
+
+    <div class="usecase">
+      <h3>Customer and order lookups</h3>
+      <p>Support staff can pull up a customer&rsquo;s order history or check a
+      product&rsquo;s stock in seconds, using the same words a customer would
+      use on a call.</p>
+    </div>
+
+    <div class="usecase">
+      <h3>Exploring a new or unfamiliar database</h3>
+      <p>Because schema retrieval only surfaces the tables relevant to a
+      given question, a newcomer can ask real questions productively before
+      they&rsquo;ve memorized table names and relationships.</p>
+    </div>
+
+    <div class="usecase">
+      <h3>Follow-up, conversational analysis</h3>
+      <p>Conversation history is stored per session, so a follow-up question
+      like &ldquo;now break that down by region&rdquo; carries the context
+      of what was asked before, without repeating it.</p>
+    </div>
+  </section>
+
+  <section id="examples" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">In practice</p>
+      <h2>Example interactions</h2>
+    </div>
+
+    <div class="example">
+      <p class="q">Which customers are from California?</p>
+      <code>SELECT * FROM customers WHERE state = 'CA' LIMIT 200</code>
+      <p class="a">There are 3 customers from California: Maria Chen, David Park, and Lena Osei.</p>
+    </div>
+
+    <div class="example">
+      <p class="q">What were our 5 best-selling products last quarter?</p>
+      <code>SELECT p.name, SUM(oi.quantity) AS units_sold
+FROM order_items oi
+JOIN products p ON p.id = oi.product_id
+JOIN orders o ON o.id = oi.order_id
+WHERE o.created_at &gt;= NOW() - INTERVAL '90 days'
+GROUP BY p.name
+ORDER BY units_sold DESC
+LIMIT 5</code>
+      <p class="a">The top 5 products by units sold were the Wireless Mouse, Desk Lamp, Notebook Set, Water Bottle, and Phone Stand.</p>
+    </div>
+
+    <div class="example">
+      <p class="q">What&rsquo;s the average rating for the Wireless Mouse?</p>
+      <code>SELECT AVG(rating) FROM reviews r
+JOIN products p ON p.id = r.product_id
+WHERE p.name = 'Wireless Mouse'</code>
+      <p class="a">The Wireless Mouse has an average rating of 4.3 out of 5.</p>
+    </div>
+  </section>
+
+  <section id="safeguards" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Built in</p>
+      <h2>Safeguards</h2>
+    </div>
+    <ul class="cert-list case-role-list">
+      <li><b>Read-only by construction.</b> Every query runs inside a Postgres transaction explicitly set to read-only, so even if a write slipped past validation, the database itself refuses it.</li>
+      <li><b>Statement validation.</b> Generated SQL is rejected before it runs if it isn&rsquo;t a single SELECT statement, contains write or DDL keywords, or stacks multiple statements.</li>
+      <li><b>Timeouts and row limits.</b> A statement timeout and an automatic row limit prevent a runaway or overly broad query from tying up the database.</li>
+      <li><b>Grounded answers.</b> The natural-language answer comes from a second LLM call over the real query results, not from the model guessing at what the data probably looks like.</li>
+    </ul>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Stack</h2>
+    </div>
+    <ul class="tags">
+      <li>React</li><li>FastAPI</li><li>LangChain</li><li>PGVector</li><li>Postgres</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt &middot; <a href="index.html" class="project-link" style="margin-top:0;">Back to portfolio &rarr;</a></p>
+</footer>
+
+</body>
+</html>
