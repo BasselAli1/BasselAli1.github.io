@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Q&amp;A &middot; Case Study &middot; Bassel Ali Mahmoud</title>
+<meta name="description" content="How a LangChain RAG demo was turned into a deployed document question-answering service with arbitrary uploads, streamed grounded answers, prompt-injection-guarded context, and a tested CI/CD pipeline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#pipeline">Stack</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero compact wrap">
+    <a href="index.html#work" class="project-link back-link">&larr; All projects</a>
+    <p class="eyebrow">Case study</p>
+    <h1 class="hero-title">Document Q&amp;A</h1>
+    <p class="hero-sub">
+      Upload a PDF, Word file, web page, or plain text and ask questions
+      about that document. Answers stream back token by token, grounded in
+      the retrieved passages and guarded so the document can never act as
+      an instruction. Directed end-to-end, built with Claude Code, and
+      shipped with a test suite and CI/CD.
+    </p>
+    <div class="hero-cta">
+      <a href="https://documentqa-5c1be7ab.fastapicloud.dev/" class="btn btn-primary" target="_blank" rel="noopener">Try it live</a>
+      <a href="https://github.com/BasselAli1/DocumentQA" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
+    </div>
+  </section>
+
+  <section id="problem" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The problem</p>
+      <h2>A RAG demo is not a document tool</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Most retrieval-augmented generation examples are wired to one
+      hardcoded article and one fixed collection. They show the technique
+      but you cannot point them at your own file. This project turns that
+      demo into a working service. You upload a document, it gets chunked,
+      embedded, and indexed, and every question is answered from that
+      specific document&rsquo;s retrieved text, with the answer streaming
+      back as it is generated rather than arriving in one block.
+    </p>
+  </section>
+
+  <section id="build" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The build</p>
+      <h2>Upload, retrieve, stream, log</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      An uploaded file is loaded by type, split into overlapping chunks
+      with their start offsets recorded, embedded with OpenAI, and stored
+      in a disk-persisted Chroma index. Each chunk gets a deterministic ID
+      derived from its source and a content hash, so re-indexing the same
+      document never creates duplicates. A question then runs through one
+      of two retrieval strategies and the answer streams back over
+      Server-Sent Events. Every question, answer, and the exact chunks used
+      to produce it are logged to Postgres.
+    </p>
+    <div class="project-flow case-flow" aria-hidden="true">
+      <span>Upload</span><span class="arrow">&rarr;</span>
+      <span>Chunk + embed</span><span class="arrow">&rarr;</span>
+      <span>Retrieve</span><span class="arrow">&rarr;</span>
+      <span>Streamed answer</span>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Two answering modes share the same pipeline. In chain mode, retrieval
+      always runs before the model and the retrieved text is folded into
+      the prompt inside a context block. In agent mode, retrieval is a tool
+      the model chooses to call, so a follow-up that needs no lookup skips
+      it entirely.
+    </p>
+  </section>
+
+  <section id="role" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">My role</p>
+      <h2>Directed end-to-end, built with Claude Code</h2>
+    </div>
+    <ul class="cert-list case-role-list">
+      <li>Directed the architecture: typed settings read from the environment, one loader per file type, an indexing layer with deterministic chunk IDs, and an answering layer that keeps the API, CLI, and web UI on a single shared code path.</li>
+      <li>Made the call to treat every retrieved passage as untrusted data. Both answering modes wrap the context in an explicit instruction to ignore anything inside it that reads as a command, so an uploaded document cannot hijack the model.</li>
+      <li>Built the streaming layer for both modes, pulling tokens and retrieved sources from LangChain&rsquo;s event stream in agent mode and from combined message and value streams in chain mode.</li>
+      <li>Hardened it for production in an AI pair-programming session with Claude Code: an offline test suite covering config parsing, loaders, chunking, the CLI, and logging, plus a GitHub Actions pipeline running ruff and pytest on Python 3.11 and 3.12 and building the Docker image.</li>
+      <li>Renamed the leftover tutorial defaults so the deployed service reads as a product rather than a walkthrough.</li>
+      <li>Packaged the whole thing with Docker Compose so the app and its Postgres database come up together identically anywhere.</li>
+    </ul>
+  </section>
+
+  <section id="highlights" class="wrap">
+    <div class="section-head">
+      <h2>Technical highlights</h2>
+    </div>
+    <div class="table-wrap">
+      <table class="case-table">
+        <thead>
+          <tr><th>Layer</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ingestion</td><td>Per-type loaders for PDF (pypdf), DOCX (python-docx), HTML, and plain text, each tagged with a readable source name and guarded against empty files</td></tr>
+          <tr><td>Chunking</td><td>RecursiveCharacterTextSplitter, 1000-character chunks with 200 overlap, start index recorded on every chunk for stable IDs</td></tr>
+          <tr><td>Retrieval</td><td>OpenAI text-embedding-3-small over a disk-persisted Chroma collection, top-k similarity search</td></tr>
+          <tr><td>Answering</td><td>LangChain create_agent, chain mode via a before_model middleware, agent mode via a retrieval tool, both grounded-only and prompt-injection-guarded</td></tr>
+          <tr><td>Streaming</td><td>Server-Sent Events endpoint, token by token, with a done event and inline error frames</td></tr>
+          <tr><td>Logging</td><td>Postgres via SQLAlchemy Core, no ORM, a JSONB column holding every retrieved chunk, silently skipped when no database is configured</td></tr>
+          <tr><td>Delivery</td><td>Docker and Docker Compose (app plus Postgres), one entrypoint routing CLI subcommands or the API server</td></tr>
+          <tr><td>CI/CD</td><td>GitHub Actions running ruff and pytest on Python 3.11 and 3.12, a Docker image build, and publish to GitHub Container Registry on main</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="numbers" class="wrap">
+    <div class="section-head">
+      <h2>By the numbers</h2>
+    </div>
+    <div class="case-stats">
+      <div class="case-stat"><span class="num">31</span><span class="label">unit tests</span></div>
+      <div class="case-stat"><span class="num">2</span><span class="label">retrieval modes</span></div>
+      <div class="case-stat"><span class="num">5</span><span class="label">document formats</span></div>
+      <div class="case-stat"><span class="num">3</span><span class="label">interfaces: UI, API, CLI</span></div>
+    </div>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Stack</h2>
+    </div>
+    <ul class="tags">
+      <li>Python</li><li>FastAPI</li><li>LangChain</li><li>OpenAI API</li>
+      <li>Chroma</li><li>PostgreSQL</li><li>SQLAlchemy</li><li>Server-Sent Events</li>
+      <li>Docker</li><li>Docker Compose</li><li>GitHub Actions</li><li>pytest</li><li>ruff</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt &middot; <a href="index.html" class="project-link" style="margin-top:0;">Back to portfolio &rarr;</a></p>
+</footer>
+
+</body>
+</html>
