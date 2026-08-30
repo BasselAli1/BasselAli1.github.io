@@ -36,8 +36,7 @@
       Watches a stock watchlist daily, and when a price drops past a
       threshold, explains why using only the company&rsquo;s own SEC
       filings: grounded, cited, and honest when nothing fits. Architected,
-      built, tested, and shipped in an AI pair-programming session with
-      Claude Code.
+      built, tested, and shipped end-to-end.
     </p>
     <div class="hero-cta">
       <a href="https://github.com/BasselAli1/stock-move-explainer" class="btn btn-primary" target="_blank" rel="noopener">View source</a>
@@ -87,13 +86,14 @@
   <section id="role" class="wrap">
     <div class="section-head">
       <p class="eyebrow">My role</p>
-      <h2>Directed end-to-end, built with Claude Code</h2>
+      <h2>Directed and built end-to-end</h2>
     </div>
     <ul class="cert-list case-role-list">
       <li>Directed the full architecture (a layered pipeline: adapters, domain logic, data access, orchestration) and every design decision, including stack choices.</li>
       <li>Made the call to restrict the trigger to price drops only, since Risk Factors text can&rsquo;t plausibly explain an upward move, and required the LLM to say &ldquo;no clear connection found&rdquo; rather than force one.</li>
       <li>Caught and fixed real bugs surfaced only by testing against live systems, not just reviewing code: a broken package install that silently worked locally but would have failed under cron, two distinct Risk Factors extraction failures found on a real Microsoft 10-K, a pgvector type mismatch blocking retrieval entirely, and a wrong CI action version.</li>
       <li>Built and reviewed the grounding eval suite against real LLM output, checking not just whether the model reached the right verdict but that every quoted citation was an exact, verbatim match to the source text.</li>
+      <li>Worked in an AI-assisted workflow (Claude Code). The architecture, the design decisions, and the review of every change were mine.</li>
     </ul>
   </section>
 

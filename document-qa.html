@@ -36,8 +36,8 @@
       Upload a PDF, Word file, web page, or plain text and ask questions
       about that document. Answers stream back token by token, grounded in
       the retrieved passages and guarded so the document can never act as
-      an instruction. Directed end-to-end, built with Claude Code, and
-      shipped with a test suite and CI/CD.
+      an instruction. Directed and built end-to-end, and shipped with a
+      test suite and CI/CD.
     </p>
     <div class="hero-cta">
       <a href="https://documentqa-5c1be7ab.fastapicloud.dev/" class="btn btn-primary" target="_blank" rel="noopener">Try it live</a>
@@ -94,14 +94,15 @@
   <section id="role" class="wrap">
     <div class="section-head">
       <p class="eyebrow">My role</p>
-      <h2>Directed end-to-end, built with Claude Code</h2>
+      <h2>Directed and built end-to-end</h2>
     </div>
     <ul class="cert-list case-role-list">
       <li>Directed the architecture: typed settings read from the environment, one loader per file type, an indexing layer with deterministic chunk IDs, and an answering layer that keeps the API, CLI, and web UI on a single shared code path.</li>
       <li>Made the call to treat every retrieved passage as untrusted data. Both answering modes wrap the context in an explicit instruction to ignore anything inside it that reads as a command, so an uploaded document cannot hijack the model.</li>
       <li>Built the streaming layer for both modes, pulling tokens and retrieved sources from LangChain&rsquo;s event stream in agent mode and from combined message and value streams in chain mode.</li>
-      <li>Hardened it for production in an AI pair-programming session with Claude Code: an offline test suite covering config parsing, loaders, chunking, the CLI, and logging, plus a GitHub Actions pipeline running ruff and pytest on Python 3.11 and 3.12 and building the Docker image.</li>
+      <li>Hardened it for production: an offline test suite covering config parsing, loaders, chunking, the CLI, and logging, plus a GitHub Actions pipeline running ruff and pytest on Python 3.11 and 3.12 and building the Docker image.</li>
       <li>Packaged the whole thing with Docker Compose so the app and its Postgres database come up together identically anywhere.</li>
+      <li>Worked in an AI-assisted workflow (Claude Code). The architecture, the design decisions, and the review of every change were mine.</li>
     </ul>
   </section>
 
