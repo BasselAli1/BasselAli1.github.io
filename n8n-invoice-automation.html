@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Autopilot &middot; Case Study &middot; Bassel Ali Mahmoud</title>
+<meta name="description" content="An n8n automation that reads emailed PDF invoices, extracts the fields with an AI model, checks the math, and routes problems to a person on Slack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="mark">BA<span class="mark-dot">.</span>M</a>
+    <nav class="nav">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#pipeline">Stack</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero compact wrap">
+    <a href="index.html#work" class="project-link back-link">&larr; All projects</a>
+    <p class="eyebrow">Case study</p>
+    <h1 class="hero-title">Invoice Autopilot</h1>
+    <p class="hero-sub">
+      An n8n automation that reads invoices for you, so nobody has to type
+      the data in by hand.
+    </p>
+    <div class="hero-cta">
+      <a href="https://github.com/BasselAli1/Invoice-Autopilot-workflow" class="btn btn-primary" target="_blank" rel="noopener">View workflow on GitHub</a>
+    </div>
+  </section>
+
+  <section id="problem" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The problem</p>
+      <h2>Invoices arrive as PDFs, and someone retypes them</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      Invoices land in an inbox as PDF attachments. Each one has to be opened,
+      read, and copied into a system by hand. It is slow, and a single typo
+      in a total or a tax line can go unnoticed.
+    </p>
+  </section>
+
+  <section id="build" class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The build</p>
+      <h2>From inbox to validated record</h2>
+    </div>
+    <p class="about-text" style="max-width:68ch;">
+      An email with a PDF invoice triggers the workflow. The text is pulled
+      out of the PDF, and an AI model returns clean fields: vendor, date,
+      items, tax, and total. A code step then checks the math, for example
+      whether the items add up to the total. Invoices that pass are saved to
+      a Data Table. Invoices that look wrong go to a person on Slack to
+      approve or fix.
+    </p>
+    <div class="project-flow case-flow" aria-hidden="true">
+      <span>Email trigger</span><span class="arrow">&rarr;</span>
+      <span>PDF text extraction</span><span class="arrow">&rarr;</span>
+      <span>AI field extraction</span><span class="arrow">&rarr;</span>
+      <span>Math check</span><span class="arrow">&rarr;</span>
+      <span>Data Table / Slack</span>
+    </div>
+    <div class="tier-row">
+      <ul class="tags mono"><li>Checks pass &rarr; saved to Data Table</li></ul>
+      <ul class="tags"><li>Something looks wrong &rarr; Slack message to approve or fix</li></ul>
+    </div>
+  </section>
+
+  <section id="workflow" class="wrap">
+    <div class="section-head">
+      <h2>The workflow</h2>
+    </div>
+    <img src="images/invoice-autopilot.png" onerror="this.closest('section').style.display='none'" alt="n8n canvas showing the Invoice Autopilot workflow from email trigger to Data Table and Slack" style="width:100%;height:auto;border-radius:8px;">
+  </section>
+
+  <section id="steps" class="wrap">
+    <div class="section-head">
+      <h2>How it works</h2>
+    </div>
+    <ul class="cert-list case-role-list">
+      <li>An email with a PDF invoice arrives in the demo inbox.</li>
+      <li>The workflow pulls the text out of the PDF.</li>
+      <li>An AI model reads the text and returns clean fields: vendor, date, items, tax, total.</li>
+      <li>A code step checks the math, such as whether the items add up to the total.</li>
+      <li>If everything checks out, the invoice is saved to the Data Table.</li>
+      <li>If something looks wrong, a Slack message goes to a person to approve or fix.</li>
+    </ul>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <h2>Stack</h2>
+    </div>
+    <ul class="tags">
+      <li>n8n</li><li>Email trigger</li><li>PDF extraction</li>
+      <li>LLM</li><li>Structured outputs</li><li>Data Table</li><li>Slack</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer wrap">
+  <p>Bassel Ali Mahmoud &middot; Alexandria, Egypt &middot; <a href="index.html" class="project-link" style="margin-top:0;">Back to portfolio &rarr;</a></p>
+</footer>
+
+</body>
+</html>
